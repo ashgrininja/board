@@ -73,3 +73,63 @@ function getLocation () {
   let { top } = board.getBoundingClientRect(); // get relative height
   return top;
 }
+
+function undoLast () {
+  //  pop the last point
+  if (undoArr.length >= 2) {
+    //  lines 
+    //console.log(undoArr);
+    let tempArr = []
+    for (let i = undoArr.length - 1; i >= 0; i--) {
+
+      //console.log(undoArr[i]);
+      let id = undoArr[i].id;
+      if (id == "md") {
+        tempArr.unshift(undoArr.pop());
+        break;
+      }
+      else {
+        // undoArr.pop();
+        tempArr.unshift(undoArr.pop());
+      }
+    }
+    redoArr.push(tempArr);
+    //  clear canvas=> 
+    context.clearRect(0, 0, board.width, board.height);
+    // redraw
+    reDraw();
+  }
+}
+
+function redoLast () {
+  if (redoArr.length > 0) {
+    //  lines 
+    let undoPath = redoArr.pop();
+    for (let i = 0; i < undoPath.length; i++) {
+      undoArr.push(undoPath[i]);
+    }
+    //  clear canvas=> 
+    context.clearRect(0, 0, board.width, board.height);
+    // redraw
+    reDraw();
+  }
+}
+function reDraw () {
+  for (let i = 0; i < undoArr.length; i++) {
+    let { x, y, id, color, width } = undoArr[i];
+    context.strokeStyle = color;
+    context.width = width;
+
+    if (id == "md") {
+      context.beginPath();
+      context.moveTo(x, y);
+    }
+
+    else if (id == "mm") {
+      context.lineTo(x, y);
+      context.stroke();
+    }
+  }
+}
+
+

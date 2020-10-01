@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0px;
+      padding: 0px;
+    }
+  </style>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- canvas => HTML File Tag -->
+  <!--  Drawing board  -->
+  <div class="tool-bar">
+    <!--start-->
+    <div class="hamburger"></div>
+    <div class="tool-panel">
+
+      <!-- Tool 1 => Pencil -->
+      <div class="tool">
+        <img src="./NewIcons/Black_Pencil.svg" alt="" class="tool-img" id="pencil" onclick="handleTool('pencil')" />
+        <div class="tool-options" id="pencil-options">
+          <div class="slider">
+            <input type="range" max='50' min='4' value='5' step='1' />
+          </div>
+          <div class="colors">
+            <div class="color red" onclick="changeColor('red')"></div>
+            <div class="color green" onclick="changeColor('green')"></div>
+            <div class="color blue" onclick="changeColor('blue')"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tool 2 => Eraser -->
+      <div class="tool">
+        <img src="./NewIcons/Eraser.svg" alt="" class="tool-img" id="eraser" onclick="handleTool('eraser')" />
+        <div class="tool-options" id="eraser-options">
+          <div class="slider">
+            <input type="range" max='50' min='4' value='5' step='1' />
+          </div>
+        </div>
+      </div>
+
+      <!-- Tool 3 => Sticky Note -->
+      <div class="tool">
+        <img src="./NewIcons/StickyNote.svg" alt="" class="tool-img" id="sticky" onclick="handleTool('sticky')" />
+      </div>
+
+      <!-- Tool 4 => Image Upload -->
+      <div class="tool">
+        <img src="./NewIcons/Photo.svg" alt="" class="tool-img" id="upload" onclick="handleTool('upload')" />
+        <input type="file" name="" id="acceptImg" style="display: none;">
+      </div>
+
+      <!-- Tool 5 => Undo -->
+      <div class="tool">
+        <img src="./NewIcons/Undo.svg" alt="" class="tool-img" id="undo" onclick="handleTool('undo')" />
+      </div>
+
+      <!-- Tool 6 => Redo -->
+
+      <div class="tool">
+        <img src="./NewIcons/Redo.svg" alt="" class="tool-img" id="redo" onclick="handleTool('redo')" />
+      </div>
+
+      <!-- Tool 7 => Download -->
+      <div class="tool">
+        <img src="./NewIcons/Download.svg" alt="" class="tool-img" id="download" onclick="handleTool('download')" />
+      </div>
+
+    </div>
+  </div>
+  <!-- End -->
+
+  <!-- Canvas  -->
+  <canvas class="board"></canvas>;
+
+  <!-- Sticky Pad : Dynamic in a new file-->
+
+
+  <script>
+    let board = document.querySelector(".board");
+    board.height = window.innerHeight; // window is an object that defines the current tab
+    board.width = window.innerWidth;
+    // 2d , 3d, webGL
+    let context = board.getContext("2d"); // tool
+    window.addEventListener("resize", function () {
+      board.height = window.innerHeight; // window is an object that defines the current tab
+      board.width = window.innerWidth;
+
+      // redraw =>redraw
+    });
+            // console.log(context);
+  </script>
+  <!-- ====================================== -->
+  <!-- client -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.4/socket.io.js"></script>
+  <script>
+    const socket = io.connect("http://localhost:3000");
+  </script>
+  <script src="utility.js"></script>
+  <script src="canvas.js"></script>
+  <script src="tools.js"></script>
+  <script src="sticky.js"></script>
+  <script src="image.js"></script>
+
+</body>
+</html>
+<!-- context.fillStyle = "green"; 
+      // adjust width of stroke
+      context.lineWidth = 5;
+      context.strokeStyle = "purple";
+      // x, y, width, height
+      // context.fillRect(100, 100, 100, 100);//by default black color
+      // context.strokeRect(100, 100, 150, 100);
+
+      //A new path started
+      // Path Start
+      context.beginPath();
+      // move without Drawing
+      // SubPath - 1
+      context.moveTo(50, 100);
+      //connects to last moveTo
+      context.lineTo(100, 200);
+      // SubPath 2
+      context.lineTo(200, 100);
+      context.stroke(); // for UI Rendering
+      context.closePath();
+
+      //  new Path
+      context.beginPath();
+      context.moveTo(250, 100);
+      context.lineTo(300, 200);
+      context.strokeStyle = "red";
+
+      context.stroke(); // for UI Rendering
+      -->
